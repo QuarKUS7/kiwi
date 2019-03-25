@@ -42,7 +42,5 @@ $ docker run quarkus7/kiwi --help
 
 ## Authors
 
-Contirbutor
-
 Peter Pagac
 pagac.peter123@gmail.com
