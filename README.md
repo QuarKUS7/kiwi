@@ -21,7 +21,7 @@ $ python kiwi_airports.py --full
 ```
 * Alternatively, use Docker. In cmd:
 ```
-$ run docker run quarkus7/kiwi
+$ docker run quarkus7/kiwi
 ```
 for more options:
 ```
