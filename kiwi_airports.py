@@ -15,31 +15,27 @@ def get_data(url):
         print("[!] HTTP {0} calling [{1}]".format(response.status_code, url))
         return None
 
-
 def process_data(data, args):
     """function for processing data to fit arg options"""
-    if data is not None:
+    if data:
         # no arguments option
-        if all(value == False for value in args.values()):
+        if not any(args.values()):
+            # goal is to print out into stdout
             print({i: {'name': item['name'], 'IATA': item['id']}
                     for i, item in enumerate(data['locations'])})
             return None
-        # full argument returns everything
-        if args['full']:
-            print({i: {
-                    'name': item['name'],
+
+        out = {i: { 'name': item['name'],
                     'IATA': item['id'],
                     'coords': item['location'],
                     'city': item['city']['name']}
-                    for i, item in enumerate(data['locations'])})
+                    for i, item in enumerate(data['locations'])}
+
+        # full argument returns everything
+        if args['full']:
+            print(out)
             return None
-        # create output dict
-        out = {i: {
-                'name': item['name'],
-                'IATA': item['id'],
-                'coords': item['location'],
-                'city': item['city']['name']}
-                for i, item in enumerate(data['locations'])}
+
         # drop not desired item in output dict
         for i, _ in out.items():
             if not args['iata']:
@@ -51,10 +47,8 @@ def process_data(data, args):
             if not args['names']:
                 del out[i]['name']
         print(out)
-        return None
     else:
         print("No Airports Found")
-
 
 def parse_arguments():
     parser = argparse.ArgumentParser(
@@ -80,7 +74,6 @@ def parse_arguments():
         action='store_true',
         help="to provide every detail of the airport")
     return vars(parser.parse_args())
-
 
 def main(args):
     # url for subentity search with term=GB, local=en-US, active_only=False,location_types=airport and limit=999
